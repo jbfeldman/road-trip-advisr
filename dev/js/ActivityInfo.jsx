@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Checkbox, Image } from 'semantic-ui-react';
 
 export default class Filters extends React.Component {
     constructor(props) {
@@ -8,12 +8,13 @@ export default class Filters extends React.Component {
     }
 
     render() {
-        console.log(this.props.activity);
+        // console.log(this.props.activity);
         return (
             <Card>
                 {this.buildHeader()}
                 {this.buildMeta()}
                 {this.buildDescription()}
+                {this.buildCheckbox()}
             </Card>
         );
     }
@@ -80,5 +81,16 @@ export default class Filters extends React.Component {
         } else {
             return '';
         }
+    }
+
+    buildCheckbox() {
+        return (
+            <Checkbox
+                activity={this.props.activity}
+                checked={this.props.checked}
+                onClick={this.props.onClick}
+                label="Add to trip"
+            />
+        )
     }
 }

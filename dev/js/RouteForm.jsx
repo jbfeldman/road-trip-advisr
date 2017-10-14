@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PlacesAutocomplete from 'react-places-autocomplete';
 
+import Autocomplete from 'react-google-autocomplete';
 import { Button, Form, Input } from 'semantic-ui-react';
 
 export default class RouteForm extends React.Component {
@@ -22,22 +22,26 @@ export default class RouteForm extends React.Component {
             <Form>
                 <Form.Field>
                     <label> Begin your trip at: </label>
-                    <PlacesAutocomplete
-                        placeholder = 'Where you are'
-                        onChange = {this.props.onStartLocationChange}
-                        content = {this.props.startLocation}/>
+                    <Autocomplete
+                        placeholder='Where you are'
+                        onPlaceSelected={this.props.onStartLocationSet}
+                        content = {this.props.startLocation}
+                    />
                 </Form.Field>
                 <Form.Field>
                     <label> End your trip at: </label>
                     <Input
                         placeholder = 'Where you want to go'
-                        onChange = {this.props.onEndLocationChange}
-                        content = {this.props.endLocation}/>
+                        onPlaceSelected={this.props.onEndLocationSet}
+                        content = {this.props.endLocation}
+                    />
                 </Form.Field>
                 <Button
                     type = 'button'
-                    onClick = {this.props.onSubmit}>
-                    Let's Go! </Button>
+                    onClick = {this.props.onSubmit}
+                >
+                    Let's Go!
+                </Button>
             </Form>
         );
     }
