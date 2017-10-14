@@ -29,6 +29,7 @@ export default class Planner extends React.Component {
         this.handleDisplayAttractionsToggle = this.handleDisplayAttractionsToggle.bind(this);
         this.setActiveActivity = this.setActiveActivity.bind(this);
         this.addToActivities = this.addToActivities.bind(this);
+        this.getRouteURL = this.getRouteURL.bind(this);
     }
 
     pingServer() {
@@ -114,10 +115,10 @@ export default class Planner extends React.Component {
                             onRestaurantsToggle={this.handleDisplayRestaurantsToggle}
                             onAttractionsToggle={this.handleDisplayAttractionsToggle}
                         />
+                        {this.buildSubmitButton()}
                     </Card>
                 {/* </div> */}
                 {this.buildActivityInfo()}
-                {this.buildSubmitButton()}
             </div>
         );
     }
@@ -154,6 +155,8 @@ export default class Planner extends React.Component {
         return (
             <Button
                 onClick={this.getRouteURL}
+                content='View Map'
+                
             />
         );
     }
@@ -172,12 +175,12 @@ export default class Planner extends React.Component {
         url = url.concat(JSON.stringify(this.props.startLocation.lng));
         url = url.concat("&");
 
-        const activities = sortWaypoints();
+        const activities = this.sortWaypoints();
 
-        for (i = 0; i < activities.length; i++)
+        for (let i = 0; i < activities.length; i++)
         {
             if (i == 0) {
-                url = url.concat("waypoint=")
+                url = url.concat("waypoints=")
             }
             else {
                 url = url.concat("|");
@@ -194,17 +197,17 @@ export default class Planner extends React.Component {
         url = url.concat(",");
         url = url.concat(JSON.stringify(this.props.endLocation.lng));
 
-        return url;
+        window.open(url);
     }
 
-    function compare(a,b) {
+    compare(a,b) {
         if (a < b) { return -1;}
         return 1;
     }
 
     sortWaypoints() {
         const activities = this.state.activities;
-        distances = [];
+        const distances = [];
         for (let i = 0; i < activities.length; i++) {
             distances[i] = Math.sqrt(
                                 Math.pow(
@@ -219,7 +222,7 @@ export default class Planner extends React.Component {
 
         let pairs = {};
         let j = 0;
-        for (d of distances) {
+        for (let d of distances) {
             pairs[d] = activities[j];
             j++;
         }

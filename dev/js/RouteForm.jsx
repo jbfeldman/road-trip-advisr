@@ -31,7 +31,7 @@ export default class RouteForm extends React.Component {
                     </Form.Field>
                     <Form.Field>
                         <label> End your trip at: </label>
-                        <Input
+                        <Autocomplete
                             placeholder = 'Where you want to go'
                             onPlaceSelected={this.props.onEndLocationSet}
                             content = {this.props.endLocation}

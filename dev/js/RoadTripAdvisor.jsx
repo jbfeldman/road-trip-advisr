@@ -23,7 +23,7 @@ export default class RoadTripAdvisor extends React.Component {
     }
 
     render() {
-        console.log(this.state);
+        // console.log(this.state);
         // if (this.state.readyForPlanner && this.state.end && this.state.start) {
             return (
                 <Planner
@@ -53,7 +53,7 @@ export default class RoadTripAdvisor extends React.Component {
     }
 
     setStartLocation(data) {
-        console.log(data);
+        // console.log(data);
         const url = `https://maps.googleapis.com/maps/api/geocode/json?`+
             `address=${this.formatAddress(data.formatted_address)}`;
         fetch(url).then((response) => {
@@ -73,7 +73,7 @@ export default class RoadTripAdvisor extends React.Component {
     }
 
     setEndLocation(data) {
-        console.log(data);
+        // console.log(data);
         const url = `https://maps.googleapis.com/maps/api/geocode/json?`+
             `address=${this.formatAddress(data.formatted_address)}`;
         fetch(url).then((response) => {
