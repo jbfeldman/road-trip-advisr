@@ -14,6 +14,7 @@ export default class Planner extends React.Component {
             attractions: [],
             dataReceived: false,
             activeActivity: undefined,
+            activites: [],
             
         };
 
@@ -129,5 +130,32 @@ export default class Planner extends React.Component {
         this.setState({
             activeActivity: data.activity,
         });
+    }
+
+    getRouteURL() {
+        let url = "https://www.google.com/maps/dir/?api=1&origin=";
+        let origin = stringify(startLocation);
+        origin = origin.replace(' ','+');
+        origin = origin.replace(',','%');
+        url.concat(m_origin);
+        url.concat("&");
+        for (i = 0; i < activities.length; i++)
+        {
+            if (i != 0) {
+                url.concat("|");
+            }
+            let new_waypoint = activities[i].replace(' ','+');
+            new_waypoint = new_waypoing.replace(',','%');
+            url.concat(new_waypoint);
+            if (i == (activities.length - 1)) {
+                url.concat("&");
+            }
+        }
+        let dest = stringify(endLocation);
+        dest = dest.replace(' ','+');
+        dest = dest.replace(',','%');
+        url.concat(m_origin);
+
+        return url;
     }
 }
