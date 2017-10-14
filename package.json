@@ -9,6 +9,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "jquery": "latest",
     "ejs": "latest",
     "express": "latest",
     "mongodb": "~2.0",
