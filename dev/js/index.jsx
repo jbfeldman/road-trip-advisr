@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-// import RoadTripAdvisor from './RoadTripAdvisor.jsx';
+import RoadTripAdvisor from './RoadTripAdvisor';
 
 ReactDOM.render(
-    <h1>Hi Liam</h1>,
-    // <RoadTripAdvisor name='Nathan' />,
+    <RoadTripAdvisor />,
     document.getElementById('root')
 );
