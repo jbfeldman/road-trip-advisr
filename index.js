@@ -54,7 +54,9 @@ app.post("/attractions", function(request, response){
 	console.log("I am a goddamn 3impanzee");
 	var lat = request.body.lat;
 	var lng = request.body.lng;
-	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/attractions/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5";
+	var height = request.body.height;
+	var width = request.body.width;
+	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/attractions/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5&dist=" + width + "," + height;
 
 
 	fetch(url).then(function(response) {
@@ -87,7 +89,10 @@ app.post("/attractions", function(request, response){
 app.post("/restaurants", function(request, response){
 	var lat = request.body.lat;
 	var lng = request.body.lng;
-	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/restaurants/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5"
+	var height = request.body.height;
+	var width = request.body.width;
+
+	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/restaurants/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5" + width + "," + height;
 
 fetch(url).then(function(response) {
 		return response.json();
