@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import { Menu } from 'semantic-ui-react';
 
@@ -11,33 +12,50 @@ export default class RoadTripAdvisor extends React.Component {
         this.state = {
             start: undefined,
             end: undefined,
+            readyForPlanner: false,
         };
 
         this.bindThisToFunctionsPassedAsParameters();
     }
 
     bindThisToFunctionsPassedAsParameters() {
-        this.setLocations = this.setLocations.bind(this);
+        this.setReadyForPlanner = this.setReadyForPlanner.bind(this);
+        this.setStartLocation = this.setStartLocation.bind(this);
+        this.setEndLocation = this.setEndLocation.bind(this);
     }
 
     render() {
-        if (this.state.start) {
+        if (readyForPlanner) {
             return (
                 <Planner
-                    startLocation={state.start}
                     endLocation={state.end}
+                    startLocation={state.start}
                 />
             );
         } else {
             return (
                 <RouteForm
-                    onLocationsSet={this.setLocations}
+                    endLocation={state.end}
+                    onEndLocationChange={this.setEndLocation}
+                    onStartLocationChange={this.setStartLocation}
+                    onSubmit={this.setReadyForPlanner}
+                    startLocation={state.start}
                 />
             );
         }
     }
 
-    setLocations(x, y) {
+    setReadyForPlanner() {
+        this.setState({
+            readyForPlanner: true,
+        });
+    }
+
+    setStartLocation(x, y) {
+        console.log(x, y);
+    }
+
+    setEndLocation(x, y) {
         console.log(x, y);
     }
 }

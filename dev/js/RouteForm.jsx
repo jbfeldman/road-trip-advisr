@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Header } from 'semantic-ui-react';
 
-export default class AllenhubPage extends React.Component {
+export default class RouteForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
