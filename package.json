@@ -1,0 +1,23 @@
+{
+  "name": "tf-queue",
+  
+  "engines": {
+    "node": "latest"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "ejs": "latest",
+    "express": "latest",
+    "mongodb": "~2.0",
+    "socket.io": "~1.7.3",
+    "body-parser": "latest",
+    "validator": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/road-trip-advisr"
+  }
+}
