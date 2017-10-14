@@ -8,7 +8,6 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "jquery": "latest",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-polyfill": "^6.23.0",
@@ -17,7 +16,9 @@
     "body-parser": "latest",
     "ejs": "latest",
     "express": "latest",
+    "jquery": "latest",
     "mongodb": "latest",
+    "node-fetch": "^1.7.3",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
     "semantic-ui": "^2.2.13",
