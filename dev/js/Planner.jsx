@@ -148,11 +148,13 @@ export default class Planner extends React.Component {
 
     getRouteURL() {
         let url = "https://www.google.com/maps/dir/?api=1&origin=";
-        url = url.concat(JSON.stringify(startLocation.lat));
+        url = url.concat(JSON.stringify(this.props.startLocation.lat));
         url = url.concat(",");
-        url = url.concat(JSON.stringify(startLocation.lng));
+        url = url.concat(JSON.stringify(this.props.startLocation.lng));
         url = url.concat("&");
         
+        const activities = sortWaypoints();
+
         for (i = 0; i < activities.length; i++)
         {
             if (i == 0) {
@@ -169,11 +171,43 @@ export default class Planner extends React.Component {
             }
         }
         url = url.concat("destination=");
-        url = url.concat(JSON.stringify(endLocation.lat));
+        url = url.concat(JSON.stringify(this.props.endLocation.lat));
         url = url.concat(",");
-        url = url.concat(JSON.stringify(endLocation.lng));
+        url = url.concat(JSON.stringify(this.props.endLocation.lng));
 
         return url;
+    }
+
+    function compare(a,b) {
+        if (a < b) { return -1;}
+        return 1;
+    }
+
+    sortWaypoints() {
+        const activities = this.state.activities;
+        distances = [];
+        for (let i = 0; i < activities.length; i++) {
+            distances[i] = Math.sqrt(
+                                Math.pow(
+                                    activities[i].lat - 
+                                    this.props.startLocation.lat, 2)
+                                +
+                                Math.pow(
+                                    activities[i].lng - 
+                                    this.props.startLocation.lng, 2)
+                           );   
+        }
+
+        let pairs = {};
+        let j = 0;
+        for (d of distances) {
+            pairs[d] = activities[j];
+            j++;
+        }
+        distances.sort();
+        return distances.map((d) => {
+            return pairs[d];
+        });
     }
 
     addToActivities(dump, data) {
