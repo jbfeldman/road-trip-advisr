@@ -17,7 +17,7 @@ app.listen(app.get('port'), function() {
 var path = require('path');
 
 
-var bodyParser = require('body-parser'); 
+var bodyParser = require('body-parser');
 var validator = require('validator');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,7 +42,7 @@ app.use(function(req, res, next) {
 app.use(express.static(__dirname + '/public'));
 
 // views is directory for all template files
-app.set('views', __dirname + '/views');	
+app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get("/", function(request, response){
@@ -51,7 +51,6 @@ app.get("/", function(request, response){
 });
 
 app.post("/attractions", function(request, response){
-	console.log("I am a goddamn 3impanzee");
 	var lat = request.body.lat;
 	var lng = request.body.lng;
 	var height = request.body.height;
@@ -79,9 +78,9 @@ app.post("/attractions", function(request, response){
  //  			console.log("was an error");
  //  		}
  //  		/*data parser, maybe */
- //  	//	obj = JSON.parse(data); 
+ //  	//	obj = JSON.parse(data);
  //  		response.send(data);
-  		
+
 	// });
 
 });
@@ -94,7 +93,7 @@ app.post("/restaurants", function(request, response){
 
 	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/restaurants/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5" + width + "," + height;
 
-fetch(url).then(function(response) {
+    fetch(url).then(function(response) {
 		return response.json();
 	}).then(function(json)  {
 		response.send(json);
@@ -106,11 +105,11 @@ fetch(url).then(function(response) {
 	// var fs = require('fs');
 	// var obj;
 	// fs.readFile('fname', 'utf8', function (err, data) {
-  	
+
  //  		/*data parser, maybe
  //  		obj = JSON;.parse(data); <---make it an object so its easier to manipulate*/
  //  		response.send(data);
-  		
+
 	// });
 
 
