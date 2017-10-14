@@ -139,27 +139,30 @@ export default class Planner extends React.Component {
 
     getRouteURL() {
         let url = "https://www.google.com/maps/dir/?api=1&origin=";
-        let origin = stringify(startLocation);
-        origin = origin.replace(' ','+');
-        origin = origin.replace(',','%');
-        url.concat(m_origin);
-        url.concat("&");
+        url = url.concat(JSON.stringify(startLocation.lat));
+        url = url.concat(",");
+        url = url.concat(JSON.stringify(startLocation.lng));
+        url = url.concat("&");
+        
         for (i = 0; i < activities.length; i++)
         {
-            if (i != 0) {
-                url.concat("|");
+            if (i == 0) {
+                url = url.concat("waypoint=")
             }
-            let new_waypoint = activities[i].replace(' ','+');
-            new_waypoint = new_waypoing.replace(',','%');
-            url.concat(new_waypoint);
+            else {
+                url = url.concat("|");
+            }
+            url = url.concat(activities[i].lat);
+            url = url.concat(",");
+            url = url.concat(activities[i].lng);
             if (i == (activities.length - 1)) {
-                url.concat("&");
+                url = url.concat("&");
             }
         }
-        let dest = stringify(endLocation);
-        dest = dest.replace(' ','+');
-        dest = dest.replace(',','%');
-        url.concat(m_origin);
+        url = url.concat("destination=");
+        url = url.concat(JSON.stringify(endLocation.lat));
+        url = url.concat(",");
+        url = url.concat(JSON.stringify(endLocation.lng));
 
         return url;
     }
