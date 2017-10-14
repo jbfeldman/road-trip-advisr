@@ -84,22 +84,31 @@ export default class Planner extends React.Component {
         // console.log(this.state.activities);
         return (
             <div>
-                <Filters
-                    displayRestaurants={this.state.displayRestaurants}
-                    displayAttractions={this.state.displayAttractions}
-                    onRestaurantsToggle={this.handleDisplayRestaurantsToggle}
-                    onAttractionsToggle={this.handleDisplayAttractionsToggle}
-                />
-                <RouteMap
-                    attractions={this.state.attractions}
-                    restaurants={this.state.restaurants}
-                    endLocation={this.props.endLocation}
-                    startLocation={this.props.startLocation}
-                    displayRestaurants={this.state.displayRestaurants}
-                    displayAttractions={this.state.displayAttractions}
-                    setActiveActivity={this.setActiveActivity}
-                />
-                {this.buildActivityInfo()}
+                <Grid>  
+                    <Grid.Column width={10}>
+                        <RouteMap
+                            attractions={this.state.attractions}
+                            restaurants={this.state.restaurants}
+                            endLocation={this.props.endLocation}
+                            startLocation={this.props.startLocation}
+                            displayRestaurants={this.state.displayRestaurants}
+                            displayAttractions={this.state.displayAttractions}
+                            setActiveActivity={this.setActiveActivity}
+                        />
+                    </Grid.Column>
+                    <Grid.Column width={3}>
+                        <Filters
+                            displayRestaurants={this.state.displayRestaurants}
+                            displayAttractions={this.state.displayAttractions}
+                            onRestaurantsToggle={this.handleDisplayRestaurantsToggle}
+                            onAttractionsToggle={this.handleDisplayAttractionsToggle}
+                        />
+                        
+                    </Grid.Column>
+                </Grid> 
+                <Card>
+                    {this.buildActivityInfo()}
+                </Card>
             </div>
         );
     }
