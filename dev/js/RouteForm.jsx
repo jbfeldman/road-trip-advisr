@@ -33,6 +33,6 @@ export default class RouteForm extends React.Component {
                     onClick = {this.props.onSubmit}>
                     Let's Go! </Button>
             </Form>
-        )
+        );
     }
 }
