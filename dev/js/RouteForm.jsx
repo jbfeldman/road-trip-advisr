@@ -29,7 +29,7 @@ export default class RouteForm extends React.Component {
                         content = {this.props.endLocation}/>
                 </Form.Field>
                 <Button
-                    type = 'submit'
+                    type = 'button'
                     onClick = {this.props.onSubmit}>
                     Let's Go! </Button>
             </Form>
