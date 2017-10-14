@@ -16,7 +16,10 @@
     "body-parser": "latest",
     "ejs": "latest",
     "express": "latest",
+<<<<<<< HEAD
     "google-maps-react": "^1.1.0",
+=======
+>>>>>>> master
     "jquery": "latest",
     "mongodb": "latest",
     "node-fetch": "^1.7.3",
