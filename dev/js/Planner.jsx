@@ -2,6 +2,7 @@ import React from 'react';
 
 import RouteMap from './RouteMap';
 import Filters from './Filters';
+import ActivityInfo from './ActivityInfo';
 
 export default class Planner extends React.Component {
     constructor(props) {
@@ -12,6 +13,8 @@ export default class Planner extends React.Component {
             restaurants: [],
             attractions: [],
             dataReceived: false,
+            activeActivity: undefined,
+            
         };
 
         this.bindThisToFunctionsPassedAsParameters();
@@ -22,6 +25,7 @@ export default class Planner extends React.Component {
     bindThisToFunctionsPassedAsParameters() {
         this.handleDisplayRestaurantsToggle = this.handleDisplayRestaurantsToggle.bind(this);
         this.handleDisplayAttractionsToggle = this.handleDisplayAttractionsToggle.bind(this);
+        this.setActiveActivity = this.setActiveActivity.bind(this);
     }
 
     pingServer() {
@@ -78,20 +82,22 @@ export default class Planner extends React.Component {
     render() {
         return (
             <div>
-                {/* <Filters
+                <Filters
                     displayRestaurants={this.state.displayRestaurants}
                     displayAttractions={this.state.displayAttractions}
                     onRestaurantsToggle={this.handleDisplayRestaurantsToggle}
                     onAttractionsToggle={this.handleDisplayAttractionsToggle}
-                /> */}
+                />
                 <RouteMap
-                    // endLocation={{lat: 37.778519, lng: -112.405640}}
-                    // startLocation={{lat: 37.759703, lng: -122.428093}}
                     attractions={this.state.attractions}
                     restaurants={this.state.restaurants}
                     endLocation={this.props.endLocation}
                     startLocation={this.props.startLocation}
+                    displayRestaurants={this.state.displayRestaurants}
+                    displayAttractions={this.state.displayAttractions}
+                    setActiveActivity={this.setActiveActivity}
                 />
+                {this.buildActivityInfo()}
             </div>
         );
     }
@@ -105,6 +111,23 @@ export default class Planner extends React.Component {
     handleDisplayAttractionsToggle() {
         this.setState({
             displayAttractions: !(this.state.displayAttractions),
+        });
+    }
+
+    buildActivityInfo() {
+        if (this.state.activeActivity) {
+            return (
+                <ActivityInfo activity={this.state.activeActivity} />
+            );
+        } else {
+            return '';
+        }
+    }
+
+    setActiveActivity(data) {
+        console.log(data.activity);
+        this.setState({
+            activeActivity: data.activity,
         });
     }
 }

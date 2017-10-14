@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 import { Button, Form, Input } from 'semantic-ui-react';
 
@@ -12,11 +13,16 @@ export default class RouteForm extends React.Component {
     }
 
     render() {
+        const startInput = {
+            value: this.props.startLocation,
+            onChange: this.props.onStartLocationChange,
+        }
+
         return (
             <Form>
                 <Form.Field>
                     <label> Begin your trip at: </label>
-                    <Input
+                    <PlacesAutocomplete
                         placeholder = 'Where you are'
                         onChange = {this.props.onStartLocationChange}
                         content = {this.props.startLocation}/>
@@ -33,6 +39,6 @@ export default class RouteForm extends React.Component {
                     onClick = {this.props.onSubmit}>
                     Let's Go! </Button>
             </Form>
-        )
+        );
     }
 }
