@@ -32,16 +32,12 @@ export default class Planner extends React.Component {
     }
 
     pingServer() {
-        let center = this.findCenter();
         const body = JSON.stringify({
-            lat: center.lat.toString(),
-            lng: center.lng.toString(),
-            height: '100',
-            width: '100',
-            // height: (Math.abs(center.lat - this.props.startLocation.lat) * 60).toString(),
-            // width: (Math.abs(center.lng - this.props.startLocation.lng) * 60).toString()
+            start_lat: this.props.startLocation.lat.toString(),
+            start_lng: this.props.startLocation.lng.toString(),
+            end_lat: this.props.endLocation.lat.toString(),
+            end_lng: this.props.endLocation.lng.toString(),
         });
-        // console.log(body);
         fetch("/restaurants", {
             method: 'POST',
             body,

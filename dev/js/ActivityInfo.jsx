@@ -74,7 +74,7 @@ export default class Filters extends React.Component {
     buildLink() {
         if (this.props.activity.web_url) {
             return (
-                <a href={this.props.activity.web_url}>
+                <a target='_blank' href={this.props.activity.web_url}>
                     Click for more details.
                 </a>
             );
