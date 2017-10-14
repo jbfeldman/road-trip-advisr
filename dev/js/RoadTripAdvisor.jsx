@@ -23,7 +23,8 @@ export default class RoadTripAdvisor extends React.Component {
     }
 
     render() {
-        if (this.state.readyForPlanner && this.state.end && this.state.start) {
+        console.log(this.state);
+        // if (this.state.readyForPlanner && this.state.end && this.state.start) {
             return (
                 <Planner
                     endLocation={{lat: 42.3601, lng: -71.0589}}
@@ -32,17 +33,17 @@ export default class RoadTripAdvisor extends React.Component {
                     // startLocation={this.state.start}
                 />
             );
-        } else {
-            return (
-                <RouteForm
-                    endLocation={this.state.end}
-                    onEndLocationSet={this.setEndLocation}
-                    onStartLocationSet={this.setStartLocation}
-                    onSubmit={this.setReadyForPlanner}
-                    startLocation={this.state.start}
-                />
-            );
-        }
+        // } else {
+        //     return (
+        //         <RouteForm
+        //             endLocation={this.state.end}
+        //             onEndLocationSet={this.setEndLocation}
+        //             onStartLocationSet={this.setStartLocation}
+        //             onSubmit={this.setReadyForPlanner}
+        //             startLocation={this.state.start}
+        //         />
+        //     );
+        // }
     }
 
     setReadyForPlanner() {
@@ -51,11 +52,39 @@ export default class RoadTripAdvisor extends React.Component {
         });
     }
 
-    setStartLocation(dump, data) {
-        console.log(dump, data);
+    setStartLocation(data) {
+        console.log(data);
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?`+
+            `address=${this.formatAddress(data.formatted_address)}`;
+        fetch(url).then((response) => {
+            return response.json();
+        }).then((data) => {
+            this.setState({
+                start: {
+                    lat: data.results[0].geometry.location.lat,
+                    lng: data.results[0].geometry.location.lng,
+                }
+            });
+        });
     }
 
-    setEndLocation(dump, data) {
-        console.log(dump, data);
+    formatAddress(string) {
+        return string.split(' ').join('+');
+    }
+
+    setEndLocation(data) {
+        console.log(data);
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?`+
+            `address=${this.formatAddress(data.formatted_address)}`;
+        fetch(url).then((response) => {
+            return response.json();
+        }).then((data) => {
+            this.setState({
+                end: {
+                    lat: data.results[0].geometry.location.lat,
+                    lng: data.results[0].geometry.location.lng,
+                }
+            });
+        });
     }
 }
