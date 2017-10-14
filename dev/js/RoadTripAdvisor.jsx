@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Menu } from 'semantic-ui-react';
-
 import RouteForm from './RouteForm';
 import Planner from './Planner';
 
@@ -10,9 +8,9 @@ export default class RoadTripAdvisor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            start: undefined,
             end: undefined,
             readyForPlanner: false,
+            start: undefined,
         };
 
         this.bindThisToFunctionsPassedAsParameters();
@@ -25,21 +23,21 @@ export default class RoadTripAdvisor extends React.Component {
     }
 
     render() {
-        if (readyForPlanner) {
+        if (this.state.readyForPlanner) {
             return (
                 <Planner
-                    endLocation={state.end}
-                    startLocation={state.start}
+                    endLocation={this.state.end}
+                    startLocation={this.state.start}
                 />
             );
         } else {
             return (
                 <RouteForm
-                    endLocation={state.end}
+                    endLocation={this.state.end}
                     onEndLocationChange={this.setEndLocation}
                     onStartLocationChange={this.setStartLocation}
                     onSubmit={this.setReadyForPlanner}
-                    startLocation={state.start}
+                    startLocation={this.state.start}
                 />
             );
         }
@@ -51,11 +49,15 @@ export default class RoadTripAdvisor extends React.Component {
         });
     }
 
-    setStartLocation(x, y) {
-        console.log(x, y);
+    setStartLocation(dump, data) {
+        this.setState({
+            start: data.value,
+        });
     }
 
-    setEndLocation(x, y) {
-        console.log(x, y);
+    setEndLocation(dump, data) {
+        this.setState({
+            end: data.value,
+        });
     }
 }
