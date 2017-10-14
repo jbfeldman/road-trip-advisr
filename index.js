@@ -84,17 +84,17 @@ app.post("/attractions", function(request, response){
 		}).then(function(json)  {
 			 url = "http://api.tripadvisor.com/api/partner/2.0/map/" + threeq_lat + "," + threeq_lng + "/attractions/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5";
 
-			 return_val = return_val + ", " + JSON.stringify(json.data);
+			 return_val = return_val + "," + JSON.stringify(json.data);
 
 			fetch(url)
     		.then(function(response) {
 				return response.json();
 			}).then(function(json)  {
 
-				return_val = return_val + ", " + JSON.stringify(json.data);
+				return_val = "[" + return_val + "," + JSON.stringify(json.data) + "]";
 
 				response.send(return_val);
- 
+
 			});
 		});
 	});
@@ -131,17 +131,17 @@ app.post("/restaurants", function(request, response){
 		}).then(function(json)  {
 			 url = "http://api.tripadvisor.com/api/partner/2.0/map/" + threeq_lat + "," + threeq_lng + "/restaurants/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5";
 
-			 return_val = return_val + ", " + JSON.stringify(json.data);
+			 return_val = return_val + "," + JSON.stringify(json.data);
 
 			fetch(url)
     		.then(function(response) {
 				return response.json();
 			}).then(function(json)  {
 
-				return_val = return_val + ", " + JSON.stringify(json.data);
+                return_val = "[" + return_val + "," + JSON.stringify(json.data) + "]";
 
 				response.send(return_val);
- 
+
 			});
 		});
 	});

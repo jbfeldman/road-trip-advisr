@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Container, Grid } from 'semantic-ui-react';
+import { Button, Card, Container, Grid } from 'semantic-ui-react';
 
 import RouteMap from './RouteMap';
 import Filters from './Filters';
@@ -48,9 +48,15 @@ export default class Planner extends React.Component {
         }).then((response) => {
             return response.json();
         }).then((data) => {
+            const data0 = data[0];
+            const data1 = data[1];
+            const data2 = data[2];
+
+            data = data0.concat(data1);
+            data = data.concat(data2);
             // console.log(data);
             this.setState({
-                restaurants: data.data,
+                restaurants: data,
             });
         });
 
@@ -65,8 +71,15 @@ export default class Planner extends React.Component {
             return response.json();
         }).then((data) => {
             // console.log(data);
+            const data0 = data[0];
+            const data1 = data[1];
+            const data2 = data[2];
+
+            data = data0.concat(data1);
+            data = data.concat(data2);
+            // console.log(data);
             this.setState({
-                attractions: data.data,
+                attractions: data,
             });
         });
     }
@@ -103,9 +116,8 @@ export default class Planner extends React.Component {
                         />
                     </Card>
                 {/* </div> */}
-                <Card>
-                    {this.buildActivityInfo()}
-                </Card>
+                {this.buildActivityInfo()}
+                {this.buildSubmitButton()}
             </div>
         );
     }
@@ -125,15 +137,25 @@ export default class Planner extends React.Component {
     buildActivityInfo() {
         if (this.state.activeActivity) {
             return (
-                <ActivityInfo
-                    activity={this.state.activeActivity}
-                    checked={false}
-                    onClick={this.addToActivities}
-                />
+                <Card>
+                    <ActivityInfo
+                        activity={this.state.activeActivity}
+                        checked={false}
+                        onClick={this.addToActivities}
+                    />
+                </Card>
             );
         } else {
             return '';
         }
+    }
+
+    buildSubmitButton() {
+        return (
+            <Button
+                onClick={this.getRouteURL}
+            />
+        );
     }
 
     setActiveActivity(data) {
