@@ -15,7 +15,6 @@ export default class Planner extends React.Component {
             dataReceived: false,
             activeActivity: undefined,
             activites: [],
-            
         };
 
         this.bindThisToFunctionsPassedAsParameters();
@@ -27,6 +26,7 @@ export default class Planner extends React.Component {
         this.handleDisplayRestaurantsToggle = this.handleDisplayRestaurantsToggle.bind(this);
         this.handleDisplayAttractionsToggle = this.handleDisplayAttractionsToggle.bind(this);
         this.setActiveActivity = this.setActiveActivity.bind(this);
+        this.addToActivities = this.addToActivities.bind(this);
     }
 
     pingServer() {
@@ -39,7 +39,7 @@ export default class Planner extends React.Component {
             // height: (Math.abs(center.lat - this.props.startLocation.lat) * 60).toString(),
             // width: (Math.abs(center.lng - this.props.startLocation.lng) * 60).toString()
         });
-        console.log(body);
+        // console.log(body);
         fetch("/restaurants", {
             method: 'POST',
             body,
@@ -50,7 +50,7 @@ export default class Planner extends React.Component {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
+            // console.log(data);
             this.setState({
                 restaurants: data.data,
             });
@@ -66,7 +66,7 @@ export default class Planner extends React.Component {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
+            // console.log(data);
             this.setState({
                 attractions: data.data,
             });
@@ -81,24 +81,34 @@ export default class Planner extends React.Component {
     }
 
     render() {
+        // console.log(this.state.activities);
         return (
             <div>
-                <Filters
-                    displayRestaurants={this.state.displayRestaurants}
-                    displayAttractions={this.state.displayAttractions}
-                    onRestaurantsToggle={this.handleDisplayRestaurantsToggle}
-                    onAttractionsToggle={this.handleDisplayAttractionsToggle}
-                />
-                <RouteMap
-                    attractions={this.state.attractions}
-                    restaurants={this.state.restaurants}
-                    endLocation={this.props.endLocation}
-                    startLocation={this.props.startLocation}
-                    displayRestaurants={this.state.displayRestaurants}
-                    displayAttractions={this.state.displayAttractions}
-                    setActiveActivity={this.setActiveActivity}
-                />
-                {this.buildActivityInfo()}
+                <Grid>  
+                    <Grid.Column width={10}>
+                        <RouteMap
+                            attractions={this.state.attractions}
+                            restaurants={this.state.restaurants}
+                            endLocation={this.props.endLocation}
+                            startLocation={this.props.startLocation}
+                            displayRestaurants={this.state.displayRestaurants}
+                            displayAttractions={this.state.displayAttractions}
+                            setActiveActivity={this.setActiveActivity}
+                        />
+                    </Grid.Column>
+                    <Grid.Column width={3}>
+                        <Filters
+                            displayRestaurants={this.state.displayRestaurants}
+                            displayAttractions={this.state.displayAttractions}
+                            onRestaurantsToggle={this.handleDisplayRestaurantsToggle}
+                            onAttractionsToggle={this.handleDisplayAttractionsToggle}
+                        />
+                        
+                    </Grid.Column>
+                </Grid> 
+                <Card>
+                    {this.buildActivityInfo()}
+                </Card>
             </div>
         );
     }
@@ -118,7 +128,11 @@ export default class Planner extends React.Component {
     buildActivityInfo() {
         if (this.state.activeActivity) {
             return (
-                <ActivityInfo activity={this.state.activeActivity} />
+                <ActivityInfo
+                    activity={this.state.activeActivity}
+                    checked={false}
+                    onClick={this.addToActivities}
+                />
             );
         } else {
             return '';
@@ -126,7 +140,7 @@ export default class Planner extends React.Component {
     }
 
     setActiveActivity(data) {
-        console.log(data.activity);
+        // console.log(data.activity);
         this.setState({
             activeActivity: data.activity,
         });
@@ -160,5 +174,48 @@ export default class Planner extends React.Component {
         url = url.concat(JSON.stringify(endLocation.lng));
 
         return url;
+    }
+
+    addToActivities(dump, data) {
+        let activity = data.activity;
+        let coords = {
+            lat: activity.latitude,
+            lng: activity.longitude,
+        };
+        let attractions = this.state.attractions;
+        let restaurants = this.state.restaurants;
+        let index = this.idOf(activity.location_id, attractions);
+        if (index >= 0) {
+            attractions.splice(index, 1);
+        }
+        index = this.idOf(activity.location_id, restaurants);
+        if (index >= 0) {
+            restaurants.splice(index, 1);
+        }
+        let activities = this.state.activities;
+        if (activities === undefined) {
+            activities = [coords];
+        } else {
+            activities.push(coords);
+        }
+        // console.log(activities, restaurants, attractions);
+        this.setState({
+            activities,
+            restaurants,
+            attractions,
+            activeActivity: undefined,
+        });
+    }
+
+    idOf(id, restaurants) {
+        let it = 0;
+        for (let r of restaurants) {
+            // console.log(r, id);
+            if (r.location_id === id) {
+                return it;
+            }
+            it++;
+        }
+        return -1;
     }
 }
