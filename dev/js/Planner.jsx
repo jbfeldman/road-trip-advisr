@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Card, Container, Grid } from 'semantic-ui-react';
+
 import RouteMap from './RouteMap';
 import Filters from './Filters';
 import ActivityInfo from './ActivityInfo';
@@ -84,8 +86,8 @@ export default class Planner extends React.Component {
         // console.log(this.state.activities);
         return (
             <div>
-                <Grid>  
-                    <Grid.Column width={10}>
+                {/* <div className="ui Grid">
+                    <Grid.Column width={10}> */}
                         <RouteMap
                             attractions={this.state.attractions}
                             restaurants={this.state.restaurants}
@@ -95,17 +97,16 @@ export default class Planner extends React.Component {
                             displayAttractions={this.state.displayAttractions}
                             setActiveActivity={this.setActiveActivity}
                         />
-                    </Grid.Column>
-                    <Grid.Column width={3}>
+                    {/* </Grid.Column> */}
+                    <Card>
                         <Filters
                             displayRestaurants={this.state.displayRestaurants}
                             displayAttractions={this.state.displayAttractions}
                             onRestaurantsToggle={this.handleDisplayRestaurantsToggle}
                             onAttractionsToggle={this.handleDisplayAttractionsToggle}
                         />
-                        
-                    </Grid.Column>
-                </Grid> 
+                    </Card>
+                {/* </div> */}
                 <Card>
                     {this.buildActivityInfo()}
                 </Card>
@@ -152,7 +153,7 @@ export default class Planner extends React.Component {
         url = url.concat(",");
         url = url.concat(JSON.stringify(startLocation.lng));
         url = url.concat("&");
-        
+
         for (i = 0; i < activities.length; i++)
         {
             if (i == 0) {

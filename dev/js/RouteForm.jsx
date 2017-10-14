@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Autocomplete from 'react-google-autocomplete';
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Card, Form, Input } from 'semantic-ui-react';
 
 export default class RouteForm extends React.Component {
     constructor(props) {
