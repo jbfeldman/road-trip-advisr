@@ -16,7 +16,6 @@ app.listen(app.get('port'), function() {
 
 var path = require('path');
 
-
 var bodyParser = require('body-parser');
 var validator = require('validator');
 app.use(bodyParser.json());
@@ -30,7 +29,7 @@ var db = MongoClient.connect(mongoUri, function(error, databaseConnection) {
 });
 
 
- var fetch = require('node-fetch');
+var fetch = require('node-fetch');
 
 //adds CORS--for testing purposes only, REMOVE LATER
 app.use(function(req, res, next) {
@@ -39,15 +38,15 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.static(__dirname + '/public'));
+app.use('/src', express.static(__dirname + '/src'));
+
 
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 app.get("/", function(request, response){
-
-	response.sendFile(path.join(__dirname +"home.html"));
+	response.sendFile(path.join(__dirname +"/home.html"));
 });
 
 app.post("/attractions", function(request, response){
@@ -55,10 +54,13 @@ app.post("/attractions", function(request, response){
 	var lng = request.body.lng;
 	var height = request.body.height;
 	var width = request.body.width;
-	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/attractions/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5&dist=" + width + "," + height;
+	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/attractions/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5";
 
-
-	fetch(url).then(function(response) {
+	fetch(url, {
+        data: JSON.stringify({
+            distance: `${width},${height}`,
+        })
+    }).then(function(response) {
 		return response.json();
 	}).then(function(json)  {
 		response.send(json);
@@ -90,12 +92,17 @@ app.post("/restaurants", function(request, response){
 	var lng = request.body.lng;
 	var height = request.body.height;
 	var width = request.body.width;
+	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/restaurants/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5";
 
-	var url = "http://api.tripadvisor.com/api/partner/2.0/map/" + lat + "," + lng + "/restaurants/?key=9f5acbc1-6233-4162-8a68-31d4e9b6f1c5" + width + "," + height;
-
-    fetch(url).then(function(response) {
+	fetch(url, {
+        data: JSON.stringify({
+            distance: `${width},${height}`,
+        })
+    }).then(function(response) {
+        // console.log(response);
 		return response.json();
-	}).then(function(json)  {
+	}).then(function(json) {
+        // console.log(json);
 		response.send(json);
 	});
 

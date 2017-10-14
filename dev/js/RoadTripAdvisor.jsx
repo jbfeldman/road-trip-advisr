@@ -26,8 +26,10 @@ export default class RoadTripAdvisor extends React.Component {
         if (this.state.readyForPlanner) {
             return (
                 <Planner
-                    endLocation={this.state.end}
-                    startLocation={this.state.start}
+                    endLocation={{lat: 42.3601, lng: -71.0589}}
+                    startLocation={{lat: 42.1015, lng: -72.5898}}
+                    // endLocation={this.state.end}
+                    // startLocation={this.state.start}
                 />
             );
         } else {

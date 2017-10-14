@@ -7,6 +7,8 @@ export default class Planner extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            displayRestaurants: true,
+            displayAttractions: true,
             restaurants: [],
             attractions: [],
             dataReceived: false,
@@ -24,26 +26,53 @@ export default class Planner extends React.Component {
 
     pingServer() {
         let center = this.findCenter();
+        const body = JSON.stringify({
+            lat: center.lat.toString(),
+            lng: center.lng.toString(),
+            height: '100',
+            width: '100',
+            // height: (Math.abs(center.lat - this.props.startLocation.lat) * 60).toString(),
+            // width: (Math.abs(center.lng - this.props.startLocation.lng) * 60).toString()
+        });
+        console.log(body);
         fetch("/restaurants", {
-            body: JSON.stringify({
-                lat: center.lat,
-                lng: center.lng,
-                height: (Math.abs(center.lat - this.props.startLocation.lat) * 60),
-                width: (Math.abs(center.lng - this.props.startLocation.lng) * 60)
-            }),
+            method: 'POST',
+            body,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
         }).then((response) => {
             return response.json();
         }).then((data) => {
             console.log(data);
+            this.setState({
+                restaurants: data.data,
+            });
+        });
+
+        fetch("/attractions", {
+            method: 'POST',
+            body,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            console.log(data);
+            this.setState({
+                attractions: data.data,
+            });
         });
     }
 
     findCenter() {
         return ({
-                lat: ((this.props.endLocation.lat + this.props.startLocation.lat) / 2),
-                lng: ((this.props.endLocation.lng + this.props.startLocation.lng) / 2)
-            });
-        );
+            lat: ((this.props.endLocation.lat + this.props.startLocation.lat) / 2),
+            lng: ((this.props.endLocation.lng + this.props.startLocation.lng) / 2)
+        });
     }
 
     render() {
@@ -56,11 +85,12 @@ export default class Planner extends React.Component {
                     onAttractionsToggle={this.handleDisplayAttractionsToggle}
                 /> */}
                 <RouteMap
-                    endPosition={{lat: 37.778519, lng: -112.405640}}
-                    startPosition={{lat: 37.759703, lng: -122.428093}}
-                    locations={[]}
-                    // endPosition={this.props.endLocation}
-                    // startPosition={this.props.startLocation}
+                    // endLocation={{lat: 37.778519, lng: -112.405640}}
+                    // startLocation={{lat: 37.759703, lng: -122.428093}}
+                    attractions={this.state.attractions}
+                    restaurants={this.state.restaurants}
+                    endLocation={this.props.endLocation}
+                    startLocation={this.props.startLocation}
                 />
             </div>
         );
